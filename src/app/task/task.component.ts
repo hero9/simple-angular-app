@@ -15,7 +15,7 @@ import { DataService } from '../data.service';
   templateUrl: './task.component.html',
 	styleUrls: ['./task.component.scss'],
 	animations: [
-		trigger('goals', [
+		trigger('tasks', [
 			transition('* => *', [
 				query(':enter', style({ opacity: 0 }), { optional: true }),
 
@@ -40,28 +40,38 @@ import { DataService } from '../data.service';
 export class TaskComponent implements OnInit {
 
 	itemCount: number;
-	btnText: string = 'Add an item';
-	goalText: string = 'My first life goal';
-	goals = [];
+	btnText: string = 'Add a task';
+	taskText: string = 'My first task...';
+	tasks = [];
+	errorMessage: string;
 
-  constructor(private _data: DataService) { }
+  constructor(private _data: DataService) {	}
 
-  ngOnInit() {
-		this._data.goal.subscribe(res => this.goals = res);
-		this.itemCount = this.goals.length;
-		this._data.changeGoal(this.goals);
+	ngOnInit() {
+		this._data.getTasks().subscribe(data => {
+			this.tasks = data;
+			this.itemCount = this.tasks.length;
+		});
 	}
 
-	addItem() {
-		this.goals.push(this.goalText);
-		this.goalText = '';
-		this.itemCount = this.goals.length;
-		this._data.changeGoal(this.goals);
+	saveTask() {
+		this.tasks.push(this.taskText);
+		this.itemCount = this.tasks.length;
+		this._data.saveTask(this.taskText)
+			.subscribe( data => {
+				this.ngOnInit();
+			}, err => this.errorMessage = err
+		);
+		this.taskText = '';
 	}
 
-	removeItem(i) {
-		this.goals.splice(i, 1);
-		this._data.changeGoal(this.goals);
+	removeTask(_id) {
+		this.tasks.splice(_id, 1);
+		this._data.removeTask(_id)
+			.subscribe( data => {
+					this.ngOnInit();
+				}, err => this.errorMessage = err
+		)
 	}
 
 }
