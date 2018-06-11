@@ -25,6 +25,10 @@ npm start
 ```
 6. Open your browser and paste this URL: `http://localhost:8080/`
 
+## App screenshots
+![HOME page](https://user-images.githubusercontent.com/22573860/41225154-6172173e-6d98-11e8-8cbb-1d74d9ec3599.png)
+![TASK Page](https://user-images.githubusercontent.com/22573860/41225190-768e0a74-6d98-11e8-8e72-a42d5190c42e.png)
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
